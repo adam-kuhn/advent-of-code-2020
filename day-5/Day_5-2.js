@@ -10,18 +10,19 @@ function parseBoardingPass (boardingPass) {
   const rowData = boardingPass.substring(0, 7).split('')
   const columnData = boardingPass.substring(7).split('')
   rowData.forEach(byte => {
-    const middle = tempRows.length / 2
-    tempRows = byte === 'B'
-      ? tempRows.splice(middle)
-      : tempRows.splice(0, middle)
+    tempRows = parseBytes(byte, 'B', tempRows)
   })
   columnData.forEach(byte => {
-    const middle = tempColumns.length / 2
-    tempColumns = byte === 'R'
-      ? tempColumns.splice(middle)
-      : tempColumns.splice(0, middle)
+    tempColumns = parseBytes(byte, 'R', tempColumns)
   })
   return tempRows[0] * 8 + tempColumns[0]
+}
+
+function parseBytes (byte, byteToMatch, tempArray) {
+  const middle = tempArray.length / 2
+  return byte === byteToMatch
+    ? tempArray.splice(middle)
+    : tempArray.splice(0, middle)
 }
 
 const seatIdInfronOfYours = testInput.map(parseBoardingPass)
